@@ -33,6 +33,27 @@
       const messenger = document.querySelector('df-messenger');
       if (!messenger) return;
 
+      // 🔧 FIX INPUT TEXT COLOR (Shadow DOM override)
+      const applyStyles = () => {
+        const shadowRoot = messenger.shadowRoot;
+        if (!shadowRoot) return;
+
+        const textarea = shadowRoot.querySelector('textarea');
+        if (textarea) {
+          textarea.style.color = '#000000';
+          textarea.style.caretColor = '#000000';
+        }
+      };
+
+      // retry perché il DOM interno è async
+      let attempts = 0;
+      const interval = setInterval(() => {
+        applyStyles();
+        attempts++;
+        if (attempts > 10) clearInterval(interval);
+      }, 300);
+
+      // messaggio iniziale
       setTimeout(() => {
         try {
           messenger.sendQuery('ciao');
