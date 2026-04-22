@@ -28,40 +28,50 @@
 
   </df-messenger>
 
-  <script>
-    window.addEventListener('df-messenger-loaded', function () {
-      const messenger = document.querySelector('df-messenger');
-      if (!messenger) return;
+<script>
+  window.addEventListener('df-messenger-loaded', function () {
+    const messenger = document.querySelector('df-messenger');
+    if (!messenger) return;
 
-      // 🔧 FIX INPUT TEXT COLOR (Shadow DOM override)
-      const applyStyles = () => {
-        const shadowRoot = messenger.shadowRoot;
-        if (!shadowRoot) return;
+    const applyStyles = () => {
+      const shadowRoot = messenger.shadowRoot;
+      if (!shadowRoot) return;
 
-        const textarea = shadowRoot.querySelector('textarea');
-        if (textarea) {
-          textarea.style.color = '#000000';
-          textarea.style.caretColor = '#000000';
-        }
-      };
+      const textarea = shadowRoot.querySelector('textarea');
+      if (textarea) {
+        textarea.style.color = '#000000';        // testo nero
+        textarea.style.backgroundColor = '#ffffff'; // sfondo bianco (puoi cambiarlo)
+        textarea.style.caretColor = '#000000';   // cursore nero
+      }
 
-      // retry perché il DOM interno è async
-      let attempts = 0;
-      const interval = setInterval(() => {
-        applyStyles();
-        attempts++;
-        if (attempts > 10) clearInterval(interval);
-      }, 300);
+      // wrapper input (importante)
+      const inputWrapper = shadowRoot.querySelector('[part="input-wrapper"]');
+      if (inputWrapper) {
+        inputWrapper.style.backgroundColor = '#ffffff';
+      }
 
-      // messaggio iniziale
-      setTimeout(() => {
-        try {
-          messenger.sendQuery('ciao');
-        } catch (e) {
-          console.log('Errore invio messaggio iniziale:', e);
-        }
-      }, 800);
-    });
-  </script>
+      // container input
+      const inputContainer = shadowRoot.querySelector('[part="input-container"]');
+      if (inputContainer) {
+        inputContainer.style.backgroundColor = '#ffffff';
+      }
+    };
+
+    let attempts = 0;
+    const interval = setInterval(() => {
+      applyStyles();
+      attempts++;
+      if (attempts > 15) clearInterval(interval);
+    }, 300);
+
+    setTimeout(() => {
+      try {
+        messenger.sendQuery('ciao');
+      } catch (e) {
+        console.log('Errore invio messaggio iniziale:', e);
+      }
+    }, 800);
+  });
+</script>
 </body>
 </html>
