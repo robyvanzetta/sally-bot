@@ -1,0 +1,33 @@
+/* Reset base */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Google Sans, Arial, sans-serif;
+  background: #DDD4CC;
+}
+
+/* Container df-messenger */
+df-messenger {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+
+  --df-messenger-font-color: #ffffff;
+  --df-messenger-font-family: Google Sans;
+  --df-messenger-chat-background: #DDD4CC;
+  --df-messenger-message-user-background: #906A45;
+  --df-messenger-message-bot-background: #60472E;
+  --df-messenger-send-icon: #8F6A45;
+}
+
+/* Input text (shadow DOM part) */
+df-messenger::part(input-textarea) {
+  color: #000000 !important;
+}
+
+df-messenger::part(input-textarea)::placeholder {
+  color: #555555 !important;
+}
