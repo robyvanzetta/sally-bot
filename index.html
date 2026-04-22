@@ -1,46 +1,25 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sally - Consulente Integratori</title>
-
-  <!-- Dialogflow Messenger -->
-  <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
-  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-
-  <!-- CSS esterno -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <df-messenger
+<link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+<script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+<df-messenger
   project-id="sally-493908"
   agent-id="a0dd4e46-6622-44e6-856f-9f5eb80a2eb1"
-  location="global"
   language-code="it"
+  max-query-length="-1"
   intent="WELCOME">
-    
-    <df-messenger-chat
-      chat-title="Sally"
-      chat-title-icon="https://storage.cloud.google.com/grafiche/pittogramma-colori.png">
-    </df-messenger-chat>
-
-  </df-messenger>
-
-  <script>
-    window.addEventListener('df-messenger-loaded', function () {
-      const messenger = document.querySelector('df-messenger');
-      if (!messenger) return;
-
-      setTimeout(() => {
-        try {
-          messenger.sendQuery('ciao');
-        } catch (e) {
-          console.log('Errore invio messaggio iniziale:', e);
-        }
-      }, 800);
-    });
-  </script>
-</body>
-</html>
+  <df-messenger-chat-bubble
+    chat-title="Call Companion">
+  </df-messenger-chat-bubble>
+</df-messenger>
+<style>
+  df-messenger {
+    z-index: 999;
+    position: fixed;
+    --df-messenger-font-color: #000;
+    --df-messenger-font-family: Google Sans;
+    --df-messenger-chat-background: #f3f6fc;
+    --df-messenger-message-user-background: #d3e3fd;
+    --df-messenger-message-bot-background: #fff;
+    bottom: 16px;
+    right: 16px;
+  }
+</style>
