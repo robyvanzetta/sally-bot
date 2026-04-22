@@ -22,12 +22,3 @@ df-messenger {
   --df-messenger-message-bot-background: #60472E;
   --df-messenger-send-icon: #8F6A45;
 }
-
-/* Input text (shadow DOM part) */
-df-messenger::part(input-textarea) {
-  color: #000000 !important;
-}
-
-df-messenger::part(input-textarea)::placeholder {
-  color: #555555 !important;
-}
