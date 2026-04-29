@@ -3,79 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sally - Consulente Integratori</title>
+  <title>Chat Sally</title>
 
-  <link rel="icon" type="image/png" href="https://ibb.co/DfYRnvN9">
-  <link rel="shortcut icon" href="https://ibb.co/DfYRnvN9">
-  <link rel="apple-touch-icon" href="https://ibb.co/DfYRnvN9">
+  <link rel="icon" type="image/png" href="https://i.ibb.co/k2JSFwp4/pittogramma-colori.png">
+  <link rel="shortcut icon" href="https://i.ibb.co/k2JSFwp4/pittogramma-colori.png">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/k2JSFwp4/pittogramma-colori.png">
 
-  <!-- Dialogflow Messenger -->
   <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
   <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 
-  <!-- CSS esterno -->
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #DDD4CC;
+      overflow: hidden;
+      font-family: Google Sans, Arial, sans-serif;
+    }
+
+    df-messenger {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+
+      --df-messenger-font-color: #ffffff;
+      --df-messenger-font-family: Google Sans, Arial, sans-serif;
+      --df-messenger-chat-background: #DDD4CC;
+      --df-messenger-message-user-background: #906A45;
+      --df-messenger-message-bot-background: #60472E;
+      --df-messenger-send-icon: #8F6A45;
+
+      /* input */
+      --df-messenger-input-box-color: #ffffff;
+      --df-messenger-input-font-color: #000000;
+      --df-messenger-input-placeholder-font-color: #808080;
+    }
+  </style>
 </head>
 
 <body>
   <df-messenger
     project-id="sally-493908"
     agent-id="a0dd4e46-6622-44e6-856f-9f5eb80a2eb1"
+    location="global"
     language-code="it"
     max-query-length="-1"
     intent="WELCOME">
-    
     <df-messenger-chat
       chat-title="Sally"
-      chat-title-icon="https://ibb.co/DfYRnvN9">
+      chat-title-icon="https://i.ibb.co/k2JSFwp4/pittogramma-colori.png">
     </df-messenger-chat>
-
   </df-messenger>
 
-<script>
-  window.addEventListener('df-messenger-loaded', function () {
-    const messenger = document.querySelector('df-messenger');
-    if (!messenger) return;
+  <script>
+    window.addEventListener('df-messenger-loaded', function () {
+      const messenger = document.querySelector('df-messenger');
+      if (!messenger) return;
 
-    const applyStyles = () => {
-      const shadowRoot = messenger.shadowRoot;
-      if (!shadowRoot) return;
+      const setPlaceholder = () => {
+        try {
+          const root1 = messenger.shadowRoot;
+          if (!root1) return false;
 
-      const textarea = shadowRoot.querySelector('textarea');
-      if (textarea) {
-        textarea.style.color = '#000000';        // testo nero
-        textarea.style.backgroundColor = '#ffffff'; // sfondo bianco (puoi cambiarlo)
-        textarea.style.caretColor = '#000000';   // cursore nero
-      }
+          const chat = root1.querySelector('df-messenger-chat');
+          if (!chat || !chat.shadowRoot) return false;
 
-      // wrapper input (importante)
-      const inputWrapper = shadowRoot.querySelector('[part="input-wrapper"]');
-      if (inputWrapper) {
-        inputWrapper.style.backgroundColor = '#ffffff';
-      }
+          const userInput = chat.shadowRoot.querySelector('df-messenger-user-input');
+          if (!userInput || !userInput.shadowRoot) return false;
 
-      // container input
-      const inputContainer = shadowRoot.querySelector('[part="input-container"]');
-      if (inputContainer) {
-        inputContainer.style.backgroundColor = '#ffffff';
-      }
-    };
+          const input = userInput.shadowRoot.querySelector('input, textarea');
+          if (!input) return false;
 
-    let attempts = 0;
-    const interval = setInterval(() => {
-      applyStyles();
-      attempts++;
-      if (attempts > 15) clearInterval(interval);
-    }, 300);
+          input.placeholder = 'Scrivi qui';
+          input.style.color = '#000000';
+          input.style.caretColor = '#000000';
+          return true;
+        } catch (e) {
+          return false;
+        }
+      };
 
-    setTimeout(() => {
-      try {
-        messenger.sendQuery('ciao');
-      } catch (e) {
-        console.log('Errore invio messaggio iniziale:', e);
-      }
-    }, 800);
-  });
-</script>
+      let tries = 0;
+      const interval = setInterval(() => {
+        tries++;
+        if (setPlaceholder() || tries > 20) {
+          clearInterval(interval);
+        }
+      }, 300);
+
+      setTimeout(async () => {
+        try {
+          await messenger.sendQuery('ciao');
+          setPlaceholder();
+        } catch (e) {
+          console.error('Errore invio messaggio iniziale:', e);
+        }
+      }, 800);
+    });
+  </script>
 </body>
 </html>
